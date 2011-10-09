@@ -1,0 +1,2 @@
+module SharedFilesHelper
+end

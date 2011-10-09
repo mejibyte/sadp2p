@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20111009225725) do
 
   create_table "clients_shared_files", :id => false, :force => true do |t|
     t.integer "client_id"
-    t.integer "shared_files_id"
+    t.integer "shared_file_id"
   end
 
   create_table "shared_files", :force => true do |t|

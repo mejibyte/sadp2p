@@ -1,0 +1,10 @@
+<h1>Available files</h1>
+<% if @shared_files.empty? %>
+<p>No files</p>
+<% else %>
+  <ul>
+    <% @shared_files.each do |shared_file| %>
+      <li><%= shared_file.filename %> (<%= pluralize shared_file.clients.count, "peer" %>)</li>
+    <% end %>
+  </ul>
+<% end %>
