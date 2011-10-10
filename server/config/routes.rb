@@ -1,6 +1,7 @@
 Server::Application.routes.draw do
   resources :shared_files do
     collection do
+      get :collection, :action => "index"
       get :list
       get :show
     end

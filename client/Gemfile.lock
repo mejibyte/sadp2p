@@ -2,9 +2,15 @@ GEM
   remote: http://rubygems.org/
   specs:
     hpricot (0.8.4)
+    httparty (0.8.1)
+      multi_json
+      multi_xml
+    multi_json (1.0.3)
+    multi_xml (0.2.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   hpricot
+  httparty
