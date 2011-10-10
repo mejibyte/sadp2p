@@ -13,7 +13,7 @@ class CommandLine
 
       case s.split.first
       when "ls"
-        print_files SharedFiles.ls(@current_dir)
+        ls
       when "cd"
         cd s.split[1]
       when "cp"
@@ -72,9 +72,15 @@ class CommandLine
     @current_dir = @current_dir[1..-1] if @current_dir[0] == "/"
   end
   
-  def print_files(files)
+  def ls
+    files = SharedFiles.ls(@current_dir)
     if files.empty?
       return 
+    end
+    files.each do |f|
+      if f.start_with?(@current_dir + "/")
+        f.sub!(@current_dir + "/", "")
+      end
     end
     files.sort!
     longest_length = files.map(&:size).max + 3
