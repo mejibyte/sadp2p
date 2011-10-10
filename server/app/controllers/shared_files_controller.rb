@@ -10,7 +10,7 @@ class SharedFilesController < ApplicationController
       shared_file.clients << client unless shared_file.client_ids.include?(client.id)
       shared_file.save!
     end
-    render :json => "OK"
+    render :json => '"OK"'
   end
 
   def search
