@@ -21,7 +21,7 @@ class SharedFiles
   end
   
   def self.ls(current_dir)
-    files = get('/shared_files/list', :current_dir => current_dir)
+    files = get('/shared_files/list', :query => { :current_dir => current_dir } )
   end
 
   private
