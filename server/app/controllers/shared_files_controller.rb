@@ -13,7 +13,10 @@ class SharedFilesController < ApplicationController
     render :json => '"OK"'
   end
 
-  def search
+  def list
+    params[:current_dir] ||= ""
+    shared_files = SharedFile.where("filename LIKE '#{params[:current_dir]}%'").reject { |f| !f.current? }
+    render :json => shared_files.collect(&:filename)
   end
 
   def index
