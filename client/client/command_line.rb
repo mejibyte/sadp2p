@@ -1,7 +1,8 @@
 # encoding: utf-8
 
 class CommandLine
-  def initialize
+  def initialize(base_dir)
+    @base_dir = base_dir
     @current_dir = ""
   end
 
@@ -15,6 +16,8 @@ class CommandLine
         print_files SharedFiles.ls(@current_dir)
       when "cd"
         cd s.split[1]
+      when "cp"
+        cp s.split[1]
       when "exit"
         puts "Bye."
         exit 0
@@ -25,6 +28,25 @@ class CommandLine
   end
   
   private
+  
+  def cp(some_file)
+    save_as = File.join(@base_dir, @current_dir, some_file)
+    if File.exists?(save_as)
+      puts "You already have that file. Aborting."
+      return
+    end
+    puts "Asking server for information about '#{some_file}'..."
+    file = File.join(@current_dir, some_file)
+    file = file[1..-1] if file[0] == "/"
+    peers = SharedFiles.show(file)
+    if peers.empty?
+      puts "'#{some_file}' doesn't exist or isn't available anymore."
+      return
+    end
+    peers.each do |p|
+      puts "  Asking #{p} for the file..."
+    end
+  end
   
   def cd(some_directory)
     if some_directory.nil?

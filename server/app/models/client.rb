@@ -3,4 +3,6 @@ class Client < ActiveRecord::Base
   
   validates_presence_of :ip, :last_seen_at
   validates_uniqueness_of :ip
+  
+  scope :recent, lambda { where("last_seen_at > ?", 5.minutes.ago) }
 end

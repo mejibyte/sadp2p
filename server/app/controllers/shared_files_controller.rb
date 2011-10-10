@@ -2,7 +2,7 @@ class SharedFilesController < ApplicationController
   def create
     client = Client.find_or_create_by_ip(request.remote_ip)
     client.last_seen_at = Time.now
-    client.shared_files = []
+    # client.shared_files = []
     client.save!
     
     params[:files].each do |attributes|
@@ -11,6 +11,15 @@ class SharedFilesController < ApplicationController
       shared_file.save!
     end
     render :json => '"OK"'
+  end
+  
+  def show
+    file = SharedFile.where(:filename => params[:filename]).first
+    if file.present?
+      render :json => file.clients.recent.collect(&:ip)
+    else
+      render :json => []
+    end
   end
 
   def list

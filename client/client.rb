@@ -10,4 +10,4 @@ end
 puts "Starting thread to monitor files and register them on the server..."
 file_monitoring_thread = SharedFiles.monitor(ARGV.first)
 puts "Starting command line..."
-CommandLine.new.run
+CommandLine.new(ARGV.first).run

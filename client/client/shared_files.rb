@@ -1,3 +1,5 @@
+require 'uri'
+
 class SharedFiles
   include HTTParty
   base_uri 'localhost:3000'
@@ -22,6 +24,10 @@ class SharedFiles
   
   def self.ls(current_dir)
     files = get('/shared_files/list', :query => { :current_dir => current_dir } )
+  end
+  
+  def self.show(some_file)
+      get("/shared_files/show", :query => { :filename => some_file } )
   end
 
   private
