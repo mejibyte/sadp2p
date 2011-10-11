@@ -2,7 +2,7 @@ require 'uri'
 
 class SharedFiles
   include HTTParty
-  base_uri 'sadp2p.herokuapp.com:80'
+  base_uri 'sadp2p.heroku.com:80'
   
   def self.register(some_files) # Expects an array like ["/tmp/a.txt", "/c.doc"]
     post('/shared_files', :body => serialize_file_array(some_files))

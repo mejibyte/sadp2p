@@ -3,7 +3,6 @@ class PeerToPeer
   
   def initialize(base_dir)
     @base_dir = base_dir
-    puts @base_dir
   end
   
   def listen_for_incoming_connections
