@@ -33,10 +33,10 @@ class CommandLine
     save_as = File.join(@base_dir, @current_dir, some_file)
     peer = PeerToPeer.new(save_as)
     
-    #if File.exists?(save_as)
-     # puts "You already have that file. Aborting."
-     # return
-    #end
+    if File.exists?(save_as)
+      puts "You already have that file. Aborting."
+      return
+    end
     puts "Asking server for information about '#{some_file}'..."
     file = File.join(@current_dir, some_file)
     file = file[1..-1] if file[0] == "/"
