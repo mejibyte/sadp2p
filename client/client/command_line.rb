@@ -19,6 +19,8 @@ class CommandLine
         cd s.split[1]
       when "cp"
         cp s.split[1]
+      when "acp"
+        acp s.split[1]
       when "rm"
         rm s.split[1]
       when "exit"
@@ -50,6 +52,13 @@ class CommandLine
     for host in peers
       puts "  Asking #{host} for the file..."
       break if @p2p_client.ask_for_file(host, file, save_as)
+    end
+  end
+  
+  def acp(some_file)
+    puts "Copying #{some_file} asynchronously..."
+    Thread.new do
+      cp some_file
     end
   end
   
@@ -102,7 +111,7 @@ class CommandLine
     full_path = File.join(@base_dir, @current_dir, some_file)
     begin
       File.delete(full_path)
-      puts "#{some_file} is gone."
+      puts "Your local copy of #{some_file} is gone with the wind."
     rescue => e
       puts e.message
     end
