@@ -19,4 +19,4 @@ peer_to_peer = PeerToPeer.new(shared_directory, port)
 accept_connections_thread = peer_to_peer.listen_for_incoming_connections
 
 puts "Starting command line..."
-CommandLine.new(shared_directory).run
+CommandLine.new(shared_directory, peer_to_peer).run

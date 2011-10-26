@@ -24,14 +24,14 @@ class PeerToPeer
     end
   end
 
-  def ask_for_file(host, file)
+  def ask_for_file(host, file, save_as)
     host, port = host.split(":")
     port ||= DEFAULT_PORT
     begin
       socket = TCPSocket.new(host, port)
       socket.puts file
       # Receive file here and write it to file
-      receive_file(socket, file)
+      receive_file(socket, file, save_as)
     rescue => e
       puts "Connection failed with message: '#{e.message}'. Maybe the peer just left?"
     end
@@ -40,30 +40,14 @@ class PeerToPeer
   
   private
 
-  def receive_file(sock, filename)
-    while true
-      puts "Please enter full path where you want to save file."
-      path = STDIN.gets.chomp
-      if File.directory?(path)
-        puts "#{path} is a directory. Enter a full path instead."
-      elsif File.exists?(path)
-        print "#{path} already exists. Overwrite? [y/n] "
-        answer = STDIN.gets.chomp
-        break if answer == "y"
-      elsif !File.exists?(File.dirname(path))
-        puts "#{File.dirname(path)} does not exist."
-      else
-        break
-      end
-    end
-
-    IO.copy_stream(sock, File.new(path, 'w'))
-    if File.size?(path)
-      puts "Transfer complete. Saved file as #{path}."
+  def receive_file(sock, filename, save_as)
+    IO.copy_stream(sock, File.new(save_as, 'w'))
+    if File.size?(save_as)
+      puts "Transfer complete. Saved file to #{save_as}."
       return true
     else
       puts "The peer didn't send any data. Transfer failed!\n"
-      File.delete(path)
+      File.delete(save_as)
       return false
     end
   end

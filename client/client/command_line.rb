@@ -1,9 +1,10 @@
 # encoding: utf-8
 
 class CommandLine
-  def initialize(base_dir)
+  def initialize(base_dir, peer_to_peer)
     @base_dir = base_dir
     @current_dir = ""
+    @p2p_client = peer_to_peer
   end
 
   def run
@@ -31,7 +32,6 @@ class CommandLine
   
   def cp(some_file)
     save_as = File.join(@base_dir, @current_dir, some_file)
-    peer = PeerToPeer.new(save_as)
     
     if File.exists?(save_as)
       puts "You already have that file. Aborting."
@@ -45,9 +45,9 @@ class CommandLine
       puts "'#{some_file}' doesn't exist or isn't available anymore."
       return
     end
-    peers.each do |host|
-      puts "  Asking #{p} for the file..."
-      peer.ask_for_file(host, file)
+    for host in peers
+      puts "  Asking #{host} for the file..."
+      break if @p2p_client.ask_for_file(host, file, save_as)
     end
   end
   
