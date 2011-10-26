@@ -35,6 +35,11 @@ class CommandLine
   private
   
   def cp(some_file)
+    if some_file.nil?
+      puts "Usage: cp file-you-want-to-copy"
+      return
+    end
+    
     save_as = File.join(@base_dir, @current_dir, some_file)
     
     if File.exists?(save_as)
@@ -56,6 +61,11 @@ class CommandLine
   end
   
   def acp(some_file)
+    if some_file.nil?
+      puts "Usage: cp file-you-want-to-copy-asynchronously"
+      return
+    end
+    
     puts "Copying #{some_file} asynchronously..."
     Thread.new do
       cp some_file
@@ -108,6 +118,10 @@ class CommandLine
   end
   
   def rm(some_file)
+    if some_file.nil?
+      puts "Usage: rm file-you-want-to-delete"
+      return
+    end
     full_path = File.join(@base_dir, @current_dir, some_file)
     begin
       File.delete(full_path)
