@@ -19,6 +19,8 @@ class CommandLine
         cd s.split[1]
       when "cp"
         cp s.split[1]
+      when "rm"
+        rm s.split[1]
       when "exit"
         puts "Bye."
         exit 0
@@ -93,6 +95,16 @@ class CommandLine
         print ("%-#{longest_length}s" % f)
       end
       puts ""
+    end
+  end
+  
+  def rm(some_file)
+    full_path = File.join(@base_dir, @current_dir, some_file)
+    begin
+      File.delete(full_path)
+      puts "#{some_file} is gone."
+    rescue => e
+      puts e.message
     end
   end
 end
