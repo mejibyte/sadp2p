@@ -27,10 +27,14 @@ class PeerToPeer
   def ask_for_file(host, file)
     host, port = host.split(":")
     port ||= DEFAULT_PORT
-    socket = TCPSocket.new(host, port)
-    socket.puts file
-    # Receive file here and write it to file
-    receive_file(socket, file)
+    begin
+      socket = TCPSocket.new(host, port)
+      socket.puts file
+      # Receive file here and write it to file
+      receive_file(socket, file)
+    rescue => e
+      puts "Connection failed with message: '#{e.message}'. Maybe the peer just left?"
+    end
   end
   
   
