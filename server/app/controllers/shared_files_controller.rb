@@ -1,6 +1,6 @@
 class SharedFilesController < ApplicationController
   def create
-    client = Client.find_or_create_by_ip(request.remote_ip)
+    client = Client.find_or_create_by_ip(request.remote_ip + ":" + params[:port])
     client.last_seen_at = Time.now
     client.shared_files = []
     client.save!

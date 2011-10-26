@@ -45,9 +45,9 @@ class CommandLine
       puts "'#{some_file}' doesn't exist or isn't available anymore."
       return
     end
-    peers.each do |p|
+    peers.each do |host|
       puts "  Asking #{p} for the file..."
-      peer.ask_for_file(p, file)
+      peer.ask_for_file(host, file)
     end
   end
   

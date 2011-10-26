@@ -4,16 +4,19 @@ require File.join(File.dirname(__FILE__), 'client/command_line')
 require File.join(File.dirname(__FILE__), 'client/peer_to_peer')
 
 
-if ARGV.size < 1
-  puts "Usage: ruby #{__FILE__} shared-directory"
+if ARGV.size < 2
+  puts "Usage: ruby #{__FILE__} port shared-directory"
   exit -1
 end
 
-puts "Starting thread to monitor files and register them on the server..."
-file_monitoring_thread = SharedFiles.monitor(ARGV.first)
+port             = ARGV[0]
+shared_directory = ARGV[1]
 
-peer_to_peer = PeerToPeer.new(ARGV.first)
+puts "Starting thread to monitor files and register them on the server..."
+file_monitoring_thread = SharedFiles.monitor(shared_directory, port)
+
+peer_to_peer = PeerToPeer.new(shared_directory, port)
 accept_connections_thread = peer_to_peer.listen_for_incoming_connections
 
 puts "Starting command line..."
-CommandLine.new(ARGV.first).run
+CommandLine.new(shared_directory).run
